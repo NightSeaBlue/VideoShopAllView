@@ -4,16 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import model.CustomerDao;
 import model.vo.CustomerVO;
 
 public class CustomerDaoImpl implements CustomerDao{
-	// 변수 선언
+	// 필드 선언
 	final static String DRIVER 	="oracle.jdbc.driver.OracleDriver";
-	final static String URL 	= "jdbc:oracle:thin:@192.168.0.28:1521:xe";
-	final static String USER	="choe";
-	final static String PASS	="1234";
+	final static String URL 	= "jdbc:oracle:thin:@192.168.0.164:1521:xe";
+	final static String USER	="BKjeon";
+	final static String PASS	="jeon";
 
 
 	/*
@@ -155,16 +156,16 @@ public class CustomerDaoImpl implements CustomerDao{
 	 */
 
 	@Override
-	public CustomerVO selectByName(String name) throws Exception {
+	public ArrayList <String> selectByName(String name) throws Exception {
 		// 2. 연결 객체 얻어오기 (try, catch 외부에서 지정)
 		Connection con = null;
 		PreparedStatement ps =  null;
-		CustomerVO dao = new CustomerVO();
+		ArrayList<String> list = new ArrayList<String>();
 
 		try {
 			con = DriverManager.getConnection(URL,USER,PASS);
 			//3. sql 문장
-			String sql = "SELECT * FROM cust WHERE name=?";
+			String sql = "SELECT tel FROM cust WHERE name=?";
 			//4. 전송객체 얻어오기
 			ps = con.prepareStatement(sql);
 			ps.setString(1, name);
@@ -172,11 +173,7 @@ public class CustomerDaoImpl implements CustomerDao{
 			//5. 전송
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
-				dao.setCustName(rs.getString("NAME"));
-				dao.setCustTel1(rs.getString("TEL"));
-				dao.setCustTel2(rs.getString("ADDTEL"));
-				dao.setCustAddr(rs.getString("ADDR"));
-				dao.setCustEmail(rs.getString("EMAIL"));
+				list.add(rs.getString("TEL"));
 			} 
 
 		} finally {
@@ -184,7 +181,7 @@ public class CustomerDaoImpl implements CustomerDao{
 			ps.close();
 			con.close();
 		} // end of try~finally
-		return dao;
+		return list;
 
 	}// end of select By Name
 

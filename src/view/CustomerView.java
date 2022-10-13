@@ -1,12 +1,22 @@
 package	 view;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import model.dao.CustomerDaoImpl;
 import model.vo.CustomerVO;
-
-import java.awt.event.*;
 
 
 public class CustomerView extends JPanel 
@@ -155,8 +165,18 @@ public class CustomerView extends JPanel
 		String name = tfCustNameSearch.getText();
 		//2. Model의 전화번호 검색메소드 selectByName()  호출
 		try {
-			CustomerVO vo = model.selectByName(name);
-
+			// 2. 이름으로 전화번호 검색 후 리스트에 저장
+			ArrayList <String> list = model.selectByName(name);
+			Object [] obj = list.toArray();	// list 를 obj로 upcasting
+			
+			
+			// 3. 메세지 창에서 선택한 전화번호 저장
+			String tel = (String)JOptionPane.showInputDialog(null,"전화번호","고객정보",
+							JOptionPane.INFORMATION_MESSAGE, null,obj,obj[0]);
+			// 4. Model의 전화번호 검색메소드 selectByTel() 호출
+			CustomerVO vo = model.selectByTel(tel);
+			
+			//5. 넘겨받은 Customer의 각각의 값을 화면에 출력
 			tfCustTel.setText(vo.getCustTel1());
 			tfCustTelAid.setText(vo.getCustTel2());
 			tfCustName.setText(vo.getCustName());
