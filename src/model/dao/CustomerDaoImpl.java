@@ -66,7 +66,7 @@ public class CustomerDaoImpl implements CustomerDao{
 			con.close();
 		}
 
-	}// insertCustomer
+	}// end of insertCustomer
 
 	/*
 	 *  함수명 : selectByTel
@@ -111,7 +111,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	/*
 	 *  함수명 : updateCustomer
 	 *  인자 : CustomerVO vo
-	 *  리턴값 : 정수
+	 *  리턴값 : 수정한 행 수
 	 *  역할 : 새로운 CustomerVO로 회원정보 수정
 	 */
 
@@ -130,6 +130,7 @@ public class CustomerDaoImpl implements CustomerDao{
 
 			// 4. 전송객체 얻어오기
 			ps = con.prepareStatement(sql);
+			// 미완성된 sql 문장 완성
 			ps.setString(1, vo.getCustTel1());
 			ps.setString(2, vo.getCustTel2());
 			ps.setString(3, vo.getCustName());
@@ -143,7 +144,7 @@ public class CustomerDaoImpl implements CustomerDao{
 		} finally {
 			ps.close();
 			con.close();
-		}
+		}// end of try~finally
 
 		return result;
 	}// end of Update Customer
@@ -160,11 +161,12 @@ public class CustomerDaoImpl implements CustomerDao{
 		// 2. 연결 객체 얻어오기 (try, catch 외부에서 지정)
 		Connection con = null;
 		PreparedStatement ps =  null;
+		// 전화번호를 받을 ArrayList 생성
 		ArrayList<String> list = new ArrayList<String>();
 
 		try {
 			con = DriverManager.getConnection(URL,USER,PASS);
-			//3. sql 문장
+			//3. sql 문장 (고객 테이블에서 전화번호 얻어오기)
 			String sql = "SELECT tel FROM cust WHERE name=?";
 			//4. 전송객체 얻어오기
 			ps = con.prepareStatement(sql);
@@ -172,7 +174,8 @@ public class CustomerDaoImpl implements CustomerDao{
 
 			//5. 전송
 			ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
+				// ResultSet 에 정보가 있는 경우 list 에 정보 추가
 				list.add(rs.getString("TEL"));
 			} 
 
@@ -186,4 +189,4 @@ public class CustomerDaoImpl implements CustomerDao{
 	}// end of select By Name
 
 
-} // end of Customer DAO
+} // end of Customer DAO Implements

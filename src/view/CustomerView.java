@@ -31,13 +31,22 @@ public class CustomerView extends JPanel
 	// 비즈니스로직
 	CustomerDaoImpl model;
 
-
+	/*
+	 * 생성자 : CustomerView
+	 * 역할 : 고객관리 패널의 역할 지정
+	 * 
+	 */
 	public CustomerView(){
 		addLayout();
 		connectDB();
 		eventProc();
 	}
-
+	
+	/*
+	 * 함수명 : eventProc
+	 * 역할 : 버튼별 이벤트 생성
+	 */
+	
 	public void eventProc(){
 		ButtonEventHandler btnHandler = new ButtonEventHandler();
 

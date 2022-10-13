@@ -24,8 +24,14 @@ public class VideoDaoImpl implements VideoDao{
 		System.out.println("비디오 관리 드라이버 로딩 성공");
 
 
-	}
+	}// end of VideoDAO Implements
 
+	/*
+	 * 함수명 : insertVideo
+	 * 인자 : videoVO , count
+	 * 리턴값 : 비디오 정보
+	 * 역할 : 비디오 정보 테이블에 , 입력되어있는 비디오 정보 입력
+	 */
 
 
 	public void insertVideo(VideoVO vo, int count) throws Exception{
@@ -33,6 +39,7 @@ public class VideoDaoImpl implements VideoDao{
 		Connection con = null;
 		PreparedStatement ps =  null;
 		try {
+			// 연결
 			con = DriverManager.getConnection(URL,USER,PASS);
 
 
@@ -42,6 +49,7 @@ public class VideoDaoImpl implements VideoDao{
 
 			// 4-1. sql 전송객체 (PreparedStatement)
 			ps = con.prepareStatement(sql);
+			// VideoVO 에 값 저장
 			ps.setString(1, vo.getTit());
 			ps.setString(2, vo.getDir());
 			ps.setString(3, vo.getAct());
@@ -117,6 +125,13 @@ public class VideoDaoImpl implements VideoDao{
 		return data;
 	}// end of Select Video
 
+	/*
+	 * 함수명 : selectByVnum
+	 * 인자 : 비디오번호
+	 * 리턴 : 비디오 정보
+	 * 역할 : 입력한 비디오 번호를 통해 원하는 비디오 정보 호출
+	 * 
+	 */
 
 
 	@Override
@@ -138,9 +153,10 @@ public class VideoDaoImpl implements VideoDao{
 			ps = con.prepareStatement(sql);
 
 			//5. 전송
+			// Select의 경우 반드시 ResultSet 이 따라 온다.
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				// ResultSet 에 data가 있을 경우, 이들을 VideoVO vo에 할당함
+				// ResultSet 에 data가 있을 경우, 이들을 VideoVO 에 할당함
 				vo.setVidno(rs.getInt("vidno"));
 				vo.setTit(rs.getString("tit"));
 				vo.setDir(rs.getString("dir"));
@@ -157,6 +173,13 @@ public class VideoDaoImpl implements VideoDao{
 		return vo;
 	}// end of select By Vnum
 
+	/*
+	 * 함수명 : modifyVideo
+	 * 인자	: 텍스트필드에 입력되어 있는 비디오정보
+	 * 리턴값 : 수정한 비디오정보 행 수
+	 * 역할 : 텍스트필드에 입력되어 있는 비디오정보로 기존 비디오 정보 최신화
+	 * 
+	 */
 
 
 	@Override
@@ -179,6 +202,7 @@ public class VideoDaoImpl implements VideoDao{
 
 			// 전송 객체 설정
 			ps = con.prepareStatement(sql);
+			// VideoVO에 정보값 저장
 			ps.setString(1, vo.getDir());
 			ps.setString(2, vo.getTit());
 			ps.setString(3, vo.getAct());
@@ -186,7 +210,7 @@ public class VideoDaoImpl implements VideoDao{
 			ps.setString(5, vo.getSumm());
 
 			// 전송
-			result = ps.executeUpdate();
+			result = ps.executeUpdate();	// 업데이트 한 행수 할당
 
 
 		} finally {
@@ -195,7 +219,15 @@ public class VideoDaoImpl implements VideoDao{
 		}
 
 		return result;
-	}
+	}// end of ModifyVideo
+	
+	/*
+	 *  함수명 : deleteVideo
+	 *  인자 : 비디오 번호
+	 *  리턴값 : 삭제한 비디오정보 행 수
+	 *  역할 : 입력한 비디오 번호에 해당하는 비디오 정보 삭제
+	 *  
+	 */
 
 
 
@@ -205,22 +237,22 @@ public class VideoDaoImpl implements VideoDao{
 		//2. 연결객체 얻어오기
 		Connection con = null;			// 연결객체
 		PreparedStatement ps =  null;	// 전송객체
-		
+
 		int result = 0;					// 수정한 행 수
 		try {
 
 			// 연결
 			con = DriverManager.getConnection(URL,USER,PASS);
-			
+
 			// sql 문장
 			String sql = "DELETE FROM video "
 					+ " where vidno ="+vNum;
 			// 전송객체
 			ps = con.prepareStatement(sql);
-			
+
 			// 전송
 			result = ps.executeUpdate();
-					
+
 
 		} finally {
 			ps.close();

@@ -57,8 +57,15 @@ public class VideoView extends JPanel
 		initStyle();
 		eventProc();
 		connectDB();	// DB연결
-	}
-
+	} // end of Constructor
+	
+	/*
+	 * 함수 : connectDB
+	 * 인자 : DB
+	 * 리턴값 : DB 연결 성공 혹은 실패
+	 * 역할 : DB 연결 (입력되어 있는 DB)
+	 */
+	
 	public void connectDB(){	// DB연결
 		try {
 			model = new VideoDaoImpl();
@@ -82,7 +89,8 @@ public class VideoView extends JPanel
 				tfInsertCount.setEditable( cbMultiInsert.isSelected() );
 			}						
 		});	
-
+		
+		// 각 버튼별 이벤트 발생 생성자 호출
 		ButtonEventHandler btnHandler = new ButtonEventHandler();
 
 		// 이벤트 등록
@@ -138,8 +146,16 @@ public class VideoView extends JPanel
 				searchVideo();					// 비디오 검색
 			}
 		}
-	}
-
+	}// end of Button Event Handler
+	
+	/*
+	 * 함수명 : registVideo
+	 * 인자 : 텍스트필드에 입력한 정보들
+	 * 리턴값 : VideoVO
+	 * 역할 : 입고 버튼을 눌렀을 때 , 텍스트필드에 입력되어 있는 정보들을 VideoVO에 업로드
+	 * 
+	 */
+	
 	// 입고 클릭시  - 비디오 정보 등록
 	public void registVideo(){
 
@@ -175,7 +191,7 @@ public class VideoView extends JPanel
 			e.printStackTrace();
 		}
 
-	}//registVideo
+	}//end of registVideo
 
 	/*
 	 * 함수명 : clearText
@@ -191,14 +207,30 @@ public class VideoView extends JPanel
 		tfInsertCount.setText(null);
 		tfVideoActor.setText(null);
 		taVideoContent.setText(null);
-	}
+	} // end of Clear Text
+	
+	/*
+	 * 함수명 : initStyle
+	 * 인자 : 없음
+	 * 리턴값 : 없음
+	 * 역할 : 초기 설정한 화면에서 값을 입력하지 못하게 함. (임의로 데이터 입력해 변경되는 것을 방지)
+	 * 
+	 */
 
 	public void initStyle(){   
-		tfVideoNum.setEditable(false); // 입력하지 못하게 만듬.
+		tfVideoNum.setEditable(false); // 입력하지 못하게 만듦.
 		tfInsertCount.setEditable(false);
 
 		tfInsertCount.setHorizontalAlignment(JTextField.RIGHT);
-	}
+	} // end of initStyle
+	
+	/*
+	 * 함수 명 : modifyVideo
+	 * 인자 : 필드에 입력한 비디오 정보들
+	 * 리턴값 : 수정한 비디오 정보
+	 * 역할 : 필드에 입력한 비디오 정보들로 기존의 비디오 정보 수정
+	 * 
+	 */
 
 	// 수정 클릭시 - 비디오 정보 수정
 	public void modifyVideo(){
@@ -222,6 +254,14 @@ public class VideoView extends JPanel
 		}
 		
 	}// end of Modify Video
+	
+	/*
+	 *  함수명 : deleteVideo
+	 *  인자 : 비디오 번호
+	 *  리턴값 : 비디오 정보 
+	 *  역할 : 입력된 비디오 번호에 따른 정보 삭제
+	 *  
+	 */
 
 	// 삭제 클릭시 - 비디오 정보 삭제
 	public void deleteVideo(){
@@ -237,7 +277,14 @@ public class VideoView extends JPanel
 		}
 
 		JOptionPane.showMessageDialog(null, "삭제");
-	}// end of 
+	}// end of deleteVideo
+	
+	/*
+	 * 함수명 : searchVideo
+	 * 인자 : 인덱스, 제목 또는 감독
+	 * 리턴값 : 비디오 정보
+	 * 역할 : 입력한 제목 또는 감독에 따른 비디오 정보 호출
+	 */
 
 	// 비디오현황검색
 	public void searchVideo(){
