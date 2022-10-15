@@ -44,14 +44,21 @@ public class RentView extends JPanel
 	//	 생성자 함수
 	public RentView(){
 		addLayout();	//화면구성
-		eventProc();  	
-		connectDB();  //DB연결
-		selectList();	// 생성하자마자 테이블에 비디오목록 뜸
+		eventProc();  	// 이벤트 실행
+		connectDB();  	//DB연결
+		selectList();	// 생성하자마자 테이블에 비디오목록이 뜰 수 있도록 selectList 추가
 	}
 
 	// DB 연결 
+	/*
+	 * 	함수명 : ConnectDB
+	 *  인자 : 없음
+	 *  리턴값 : DB 접속
+	 *  역할 : 미리 생성되어 있는 DB에 연결할 수 있도록 해줌
+	 */
 	void connectDB(){
 		try {
+			// RentDAO(Data Access Object) RENT 테이블에 정보를 입력할 수 있도록 지정
 			model = new RentDaoImpl();
 		} catch (Exception e) {
 			System.out.println("대여 관리 드라이버 로딩 실패"+e.getMessage());
@@ -184,7 +191,12 @@ public class RentView extends JPanel
 
 	}
 
-	// 반납버튼 눌렀을 때 
+	// 반납버튼 눌렀을 때
+	/*
+	 *  함수명 : Return Click
+	 *  인자 : 반납 버튼 클릭
+	 *  역할 : 반납 버튼을 눌렀을 때 ReturnDaoImpl의 returnVideo 실행
+	 */
 	public void returnClick(){
 		int vNum = Integer.parseInt(tfReturnVideoNum.getText());
 		try {
@@ -200,6 +212,11 @@ public class RentView extends JPanel
 	}// end of returnClick
 
 	// 대여 버튼 눌렀을 때 
+	/*
+	 *  함수명 : Rent Click
+	 *  인자 : 대여 버튼 클릭
+	 *  역할 : 대여 버튼을 눌렀을 때, RentDaoImpl의 rentVideo 실행
+	 */
 	public void rentClick(){
 		String tel = tfRentTel.getText();
 		int vNum = Integer.parseInt(tfRentVideoNum.getText());
@@ -215,6 +232,11 @@ public class RentView extends JPanel
 	}//end of rentClick
 
 	// 전화번호입력후 엔터
+	/*
+	 * 	함수명 : rentSelectTel
+	 * 	인자 : RentTel text field의 값 입력 후 엔터
+	 *  역할 : name이라는 변수에 RentDaoImpl의 selectName 결과값 할당
+	 */
 	public void rentSelectTel(){
 		String tel = tfRentTel.getText();
 		try {
@@ -228,6 +250,11 @@ public class RentView extends JPanel
 	}// end of rentSelectTel
 
 	// 텍스트필드 정리
+	/*
+	 *  함수명 : Clear Text
+	 *  인자 : 없음
+	 *  역할 : 특정 함수가 실행되고 난 후, 해당하는 text Field의 입력값 초기화
+	 */
 	public void clearText() {
 		tfRentTel.setText(null);
 		tfRentCustName.setText(null);
@@ -235,6 +262,11 @@ public class RentView extends JPanel
 
 	}
 	
+	/*
+	 * 	함수명 : selectList
+	 * 	인자 : Rent Table Model의 DATA
+	 *  역할 : Rent 테이블의 DATA가 있는 경우, RentDAOIMPL의 unpaidList 실행
+	 */
 	public void selectList () {
 		try {
 			rentTM.data=model.unpaidList();
